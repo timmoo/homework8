@@ -1,16 +1,13 @@
-SELECT * FROM 
-(
-	SELECT 
-	C.CustomerName AS [Name], 
-	(C.DeliveryAddressLine1) AS Adress1,
-	(C.DeliveryAddressLine2) AS Adress2,
-	(C.PostalAddressLine1) AS Adress3,
-	(C.PostalAddressLine2) AS Adress4
-	FROM Sales.Customers AS C
-	WHERE C.CustomerName LIKE ('%Tailspin Toys%')
-) AS Adress
-UNPIVOT  (ADRESS_TOTAL  FOR ADRESS_ IN 
+SELECT   
+	CustomerName, 
+	PolnyAdress
+FROM Sales.Customers
+UNPIVOT		(PolnyAdress  FOR Adressa IN 
 										(
-										[Adress1], [Adress2], [Adress3], [Adress4]
+										Sales.Customers.DeliveryAddressLine1,
+										Sales.Customers.DeliveryAddressLine2,
+										Sales.Customers.PostalAddressLine1,
+										Sales.Customers.PostalAddressLine2
 										)
-		) as UNPVT;
+			) as UNPVT
+WHERE CustomerName LIKE ('%Tailspin Toys%');
